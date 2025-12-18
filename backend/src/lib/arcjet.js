@@ -6,12 +6,12 @@ const aj = arcjet({
   rules: [
     shield({ mode: "LIVE" }),
     detectBot({
-      mode: "LIVE",
+      mode: process.env.NODE_ENV === "production" ? "LIVE" : "DRY_RUN",
       allow: ["CATEGORY:SEARCH_ENGINE"],
     }),
     slidingWindow({
       mode: "LIVE",
-      max: 100,
+      max: 200,
       interval: 60,
     }),
   ],

@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 
 export const protectRoute = async (req, res, next) => {
   try {
-    const token = req.cookies.jwt;
+    const token = req.cookies?.jwt;
     if (!token)
       return res
         .status(401)
@@ -20,6 +20,8 @@ export const protectRoute = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
+    if(error.name==="JsonWebTokenError")return res.status(401).json({message:"Unauthorized-Invalid token"})
+    if(error.name==="TokenExpiredError")return res.status(401).json({message:"Unauthorized - token expired"})
     console.error("Error in protectRoute middleware:", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }

@@ -7,7 +7,8 @@ const router = express.Router();
 
 //these are the middlewares which execute in order - so requests get rate-limited first and then authenticated.
 //this is actually more efficient since unauthenticated requests get blocked by rate limiting before hitting the auth middleware.
-router.use(arjectProtection, protectRoute);
+router.use( protectRoute);
+// router.use(arjectProtection, protectRoute);
 
 router.get("/contacts", getAllContacts);
 router.get("/chats", getChatPartners);
