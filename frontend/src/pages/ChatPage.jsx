@@ -1,8 +1,11 @@
 import React from 'react'
+import { useAuthStore } from '../store/useAuthStore'
 
-const ChatPage = () => {
+function ChatPage() {
+  const {logout}=useAuthStore()
   return (
-    <div>ChatPage</div>
+    <div className='z-10'> ChatPage   
+    <button onClick={logout} className='btn btn-primary'> logout </button></div>
   )
 }
 
