@@ -11,6 +11,9 @@ export const useChatStore = create((set, get) => ({
   isUserLoading: false,
   isMessagesLoading: false,
   isSoundEnabled: JSON.parse(localStorage.getItem("isSoundEnabled")) === true,
+  
+  setActiveTab: (tab) => set({ activeTab: tab }),
+  setSelectedUser: (selectedUser) => set({ selectedUser }),
 
   toggleSound: () => {
     localStorage.setItem("isSoundEnabled", !get().isSoundEnabled);
@@ -41,6 +44,16 @@ export const useChatStore = create((set, get) => ({
     }
   },
 
-  setActiveTab: (tab) => set({ activeTab: tab }),
-  setSelectedUser:(selectedUser)=>set({selectedUser}),
+  getMessagesByUserId: async (userId) => {
+    set({ isMessagesLoading: true })
+    try {
+      const res = await api.get(`/messages/${userId}`)
+      set({ messages: res.data })
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong ")
+    } finally {
+      set({isMessagesLoading:false})
+    }
+  }
+
 }));
