@@ -7,10 +7,10 @@ import authRoutes from "./routes/auth.route.js";
 import messageRouter from "./routes/message.route.js";
 import { connectDB } from "./lib/db.js";
 import { ENV } from "./lib/env.js";
+import { app, server } from "./lib/soket.js";
 
 
 const PORT = ENV.PORT || 3000;
-const app = express();
 const __dirname = path.resolve();
 
 app.use(express.json({limit:"5mb"}));
@@ -27,7 +27,7 @@ if (!ENV.NODE_ENV == "production") {
     res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
   });
 }
-app.listen(ENV.PORT, () => {
+server.listen(ENV.PORT, () => {
   console.log("Server running at port", PORT);
   connectDB();
 });
