@@ -1,5 +1,4 @@
 import React from 'react'
-import { useAuthStore } from '../store/useAuthStore'
 import { useChatStore } from '../store/useChatStore'
 import ActiveTabSwitch from '../components/ActiveTabSwitch'
 import ChatsList from '../components/ChatsList'
@@ -10,7 +9,6 @@ import ChatContainer from '../components/ChatContainer'
 import NoConversationPlaceholder from '../components/NoConversationPlaceholder'
 
 function ChatPage() {
-  const { logout } = useAuthStore()
   const { activeTab , selectedUser} = useChatStore()
   
   return (
