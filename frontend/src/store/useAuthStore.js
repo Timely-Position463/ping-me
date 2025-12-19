@@ -7,6 +7,7 @@ export const useAuthStore = create((set) => ({
   isCheckingAuth: true,
   isSigningUp: false,
   isLoggingIn: false,
+  isUpdatingProfile:false,
 
   checkAuth: async () => {
     try {
@@ -27,7 +28,7 @@ export const useAuthStore = create((set) => ({
       set({ authUser: res.data });
       toast.success("Account created successfully");
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message);
     } finally {
       set({ isSigningUp: false });
     }
@@ -39,20 +40,34 @@ export const useAuthStore = create((set) => ({
       set({ authUser: res.data });
       toast.success("Logged in successfully");
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message);
     } finally {
       set({ isLoggingIn: false });
     }
   },
 
-  logout: async() => {
+  logout: async () => {
     try {
       await api.post("/auth/logout");
-      set({authUser:null})
-      toast.success("Logged out successfully")
+      set({ authUser: null });
+      toast.success("Logged out successfully");
     } catch (error) {
-      toast.error("Error logging out")
-      console.log("Logout error",error)
+      toast.error("Error logging out");
+      console.log("Logout error", error);
+    }
+  },
+
+  updateProfile: async (data) => {
+    set({isUpdatingProfile:true})
+    try {
+    const res = await api.post("/auth/update-profile", data);
+    set({ authUser: res.data })
+    toast.success("Profile updated successfully")
+    } catch (error) {
+      console.log("Error in update profile:",error)
+      toast.error(error?.response?.data?.message)
+    } finally {
+      set({isUpdatingProfile:false})
     }
   }
 }));
