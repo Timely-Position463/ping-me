@@ -27,7 +27,7 @@ if (ENV.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
   });
 }
-server.listen(ENV.PORT, () => {
+server.listen(PORT, () => {
   console.log("Server running at port", PORT);
   connectDB();
 });
